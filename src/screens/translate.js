@@ -76,7 +76,9 @@ function Translate ({navigation}) {
                 items={[
                     { label: 'Tiếng Anh', value: 'en' },
                     { label: 'Việt Nam', value: 'vi' },
-                    { label: 'Trung Quốc', value: 'zh-CN' }
+                    { label: 'Trung Quốc', value: 'zh-CN' },
+                    { label: 'Nga', value: 'ru' },
+                    { label: 'Nhật Bản', value: 'ja' }
                 ]}
                 //pickerProps={{ style: { height: 40, overflow: 'hidden' } }}
             />
@@ -94,6 +96,7 @@ function Translate ({navigation}) {
                 keyboardType="default"
                 multiline
                 numberOfLines={4}
+                style={styles.input}
               />
             </View>
           </View>
@@ -180,6 +183,14 @@ const styles = StyleSheet.create({
     //fontWeight: 600,
     color: '#fff', 
     textAlign: 'center'
+  },
+  input: {
+    borderColor: "gray",
+    width: "100%",
+    height: 150,
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
   }
 })
 

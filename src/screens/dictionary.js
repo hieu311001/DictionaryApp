@@ -24,7 +24,7 @@ import {
 function Dictionary ({navigation}) {
   const [selectedId, setSelectedId] = useState(null);
   const [data, setData] = useState(null);
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState(true);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,6 +32,12 @@ function Dictionary ({navigation}) {
   const [showBars, setShowBars] = useState(false);
 
   const IP = global.IP;
+
+  const callbackFunction = () => {
+    setMessages(!messages)
+    setModalAdd(false);
+    setModalVisible(false);
+  };
 
   const saveHistory = (idx) => {
     axios.post(`http://${IP}:5000/v1/history/${idx}`)
@@ -154,7 +160,7 @@ function Dictionary ({navigation}) {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Word id={selectedId} style={{overflow: 'auto'}}/>
+                <Word id={selectedId} style={{overflow: 'auto'}} parentCallback={callbackFunction} status={1}/>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
@@ -182,7 +188,7 @@ function Dictionary ({navigation}) {
                     <Icon name="close" color="#bbbbbb" size={30} />
                   </Pressable>
                 </View>
-                <AddWord />
+                <AddWord parentCallback={callbackFunction}/>
               </View>
             </View>
           </Modal>

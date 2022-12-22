@@ -28,6 +28,12 @@ function History ({navigation}) {
 
   const IP = global.IP;
 
+  
+  const callbackFunction = () => {
+    setMessages(!messages)
+    setModalVisible(false);
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       axios.get(`http://${IP}:5000/v1/history`)
@@ -38,7 +44,7 @@ function History ({navigation}) {
       .catch(function (error) {
         console.log(error);
       });
-    }, [text])
+    }, [messages])
   );
 
   const Item = ({ item, onPress, backgroundColor, textColor }) => (
@@ -95,7 +101,7 @@ function History ({navigation}) {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Word id={selectedId}/>
+              <Word id={selectedId} status={2} parentCallback={callbackFunction}/>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => setModalVisible(!modalVisible)}

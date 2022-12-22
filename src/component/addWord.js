@@ -12,7 +12,8 @@ import {
     TextInput, 
     Modal,
     Keyboard,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    ScrollView
 } from 'react-native';
 
 
@@ -45,7 +46,7 @@ function AddWord (prop) {
 
     axios.post(`http://${IP}:5000/v1/words`, data)
       .then(function (response) {
-        console.log("thành công")
+        console.log("thành công");
         setModalSuccess(true);
       })
       .catch(function (error) {
@@ -66,37 +67,37 @@ function AddWord (prop) {
 
   return (
     //<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    <View style={styles.container}>
+    <ScrollView style={styles.container} onPress={() => {Keyboard.dismiss()}}>
       {loading && <ActivityIndicator style={styles.activityIndicator} color={"#000"} size="small" />}
       {!loading && 
         <View>
             <View>
-                <Text style={styles.title}>ID: </Text>
+                {/* <Text style={styles.title}>ID: </Text>
                 <View style={styles.border}>
                     <Text>{ID+1}</Text>
-                </View>
+                </View> */}
                 <Text style={styles.title}>Từ mới:</Text>
                 <View style={styles.border}>
                     <TextInput 
-                    multiline
-                    numberOfLines={2}
+                    multiline={true}
                     onChangeText={(value) => setNewWord(value)}
+                    style={styles.input}
                     />
                 </View>
                 <Text style={styles.title}>Phiên âm:</Text>
                 <View style={styles.border}>
                     <TextInput 
                     multiline
-                    numberOfLines={2}
                     onChangeText={(value) => setSpell(value)}
+                    style={styles.input}
                     />
                 </View>
                 <Text style={styles.title}>Nghĩa của từ:</Text>
                 <View style={styles.border}>
                     <TextInput 
                     multiline
-                    numberOfLines={4}
                     onChangeText={(value) => setDetail(value)}
+                    style={styles.input}
                     />
                 </View>
             </View>
@@ -124,14 +125,17 @@ function AddWord (prop) {
                 <Text>Thêm từ mới thành công</Text>
                 <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalSuccess(!modalSuccess)}
+                    onPress={() =>{ 
+                      setModalSuccess(!modalSuccess);
+                      prop.parentCallback();
+                    }}
                 >
                     <Text style={styles.textStyle}>Đóng</Text>
                 </Pressable>
             </View>
           </View>
         </Modal>
-    </View>
+    </ScrollView>
     //</TouchableWithoutFeedback>
   );
 };
@@ -181,13 +185,19 @@ const styles = StyleSheet.create({
     padding: 4
   },
   border: {
-    borderWidth: 1,
     margin: 8, 
     minWidth: 200
   }, 
   title: {
     fontWeight: 600,
     margin: 8,
+  },
+  input: {
+    borderColor: "gray",
+    width: 200,
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
   }
 });
 
