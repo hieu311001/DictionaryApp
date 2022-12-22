@@ -1,0 +1,1 @@
+export default global.IP = "192.168.0.100";
