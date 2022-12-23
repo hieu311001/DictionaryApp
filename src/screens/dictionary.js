@@ -23,6 +23,7 @@ import {
 
 function Dictionary ({navigation}) {
   const [selectedId, setSelectedId] = useState(null);
+  const [version, setVersion] = useState(1);
   const [data, setData] = useState(null);
   const [messages, setMessages] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -51,17 +52,28 @@ function Dictionary ({navigation}) {
  
   const handleSearch = (text) => {
     axios.get(`http://${IP}:5000/v1/search?keyword=${text}`)
-      .then(function (response) {
-        setData(response.data);
-        setLoading(false);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    .then(function (response) {
+      setData(response.data);
+      setLoading(false);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
+  const handleSearchVN = (text) => {
+    axios.get(`http://${IP}:5000/v2/words`)
+    .then(function (response) {
+      setData(response.data);
+      setLoading(false);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  } 
+
   useEffect(() => {
-    axios.get(`http://${IP}:5000/v1/search?keyword=${text}`)
+      axios.get(`http://${IP}:5000/v1/search?keyword=${text}`)
       .then(function (response) {
         setData(response.data);
         setLoading(false);
@@ -133,11 +145,41 @@ function Dictionary ({navigation}) {
           </View>
           
           {showBars && 
-            <View style={styles.optionBars}>
-              <Pressable style={{flexDirection: 'row', alignItems: 'center'}} onPress={() => setModalAdd(!modalAdd)}>
-                <Icon name="calendar-plus-o" color="#000000" size="30" style={{padding: 8}}/>
-                <Text style={{ paddingLeft: 8}}>Thêm từ mới</Text>
-              </Pressable>
+            <View>
+              <View style={styles.optionBars}>
+                <Pressable style={{flexDirection: 'row', alignItems: 'center'}} 
+                  onPress={() => {
+                    setModalAdd(!modalAdd);
+                    setShowBars(!showBars);
+                  }}>
+                  <Icon name="calendar-plus-o" color="#000000" size="30" style={{padding: 8}}/>
+                  <Text style={{ paddingLeft: 8}}>Thêm từ mới</Text>
+                </Pressable>
+              </View>
+              <View style={styles.optionBars}>
+                <Pressable style={{flexDirection: 'row', alignItems: 'center'}} 
+                  onPress={() => {
+                    handleSearch("");
+                    setShowBars(!showBars);
+                    setLoading(!loading);
+                    setVersion(1);
+                  }}>
+                  <Icon name="calendar-plus-o" color="#000000" size="30" style={{padding: 8}}/>
+                  <Text style={{ paddingLeft: 8}}>Từ điển Anh-Việt</Text>
+                </Pressable>
+              </View>
+              <View style={styles.optionBars}>
+                <Pressable style={{flexDirection: 'row', alignItems: 'center'}} 
+                  onPress={() => {
+                    handleSearchVN();
+                    setShowBars(!showBars);
+                    setLoading(!loading);
+                    setVersion(2);
+                  }}>
+                  <Icon name="calendar-plus-o" color="#000000" size="30" style={{padding: 8}}/>
+                  <Text style={{ paddingLeft: 8}}>Từ điển Việt-Anh</Text>
+                </Pressable>
+              </View>
             </View>
           }
 
@@ -159,7 +201,7 @@ function Dictionary ({navigation}) {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Word id={selectedId} style={{overflow: 'auto'}} parentCallback={callbackFunction} status={1}/>
+                <Word id={selectedId} style={{overflow: 'auto'}} parentCallback={callbackFunction} status={1} version={version}/>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}

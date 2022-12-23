@@ -25,8 +25,16 @@ function Word (prop) {
   const IP = global.IP;
 
   const speech = (word) => {
+    let language;
+    if (prop.version == 1) {
+      language = "en";
+    } else if (prop.version == 2) {
+      language = "vi";
+    }
     var thingsToSay = word;
-    Speech.speak(thingsToSay);
+    Speech.speak(thingsToSay, {
+      language: language
+    });
   }
 
   const handleDelete = (id) => {
@@ -96,6 +104,7 @@ function Word (prop) {
   }
 
   useEffect(() => {
+    if (prop.version == 1) {
       axios.get(`http://${IP}:5000/v1/words/${prop.id}`)
       .then(function (response) {
         setData(response.data);
@@ -104,6 +113,17 @@ function Word (prop) {
       .catch(function (error) {
         console.log(error);
       });
+    } else if (prop.version == 2) {
+      axios.get(`http://${IP}:5000/v2/words/${prop.id}`)
+      .then(function (response) {
+        setData(response.data);
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+
   }, [messages])
 
   return (
@@ -112,7 +132,7 @@ function Word (prop) {
       {!loading && 
         <View>
           <View style={styles.header}>
-            {prop.status != 3 &&
+            {prop.status != 3 && prop.version == 1 &&
               <Pressable
                 style={[styles.buttons]}
                 onPress={() => {
@@ -135,7 +155,7 @@ function Word (prop) {
                   <Icon name="volume-up" color="blue" size={20}/>
                 </View>
             </Pressable>
-            {prop.status != 2 &&  
+            {prop.status != 2 && prop.version == 1 &&  
               <Pressable
                 style={[styles.buttons]}
                 onPress={() => {
@@ -155,7 +175,10 @@ function Word (prop) {
             {data[0].word}
           </Text>
           <Text style={[styles.textStyle, styles.title]}>Nghĩa của từ: </Text>
-              {renderWord()}
+              {prop.version == 1 && renderWord()}
+              {prop.version == 2 && 
+                <Text>{data[0].detail}</Text>
+              }
       </View>
       }
 
