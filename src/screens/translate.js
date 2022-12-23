@@ -45,7 +45,6 @@ function Translate ({navigation}) {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <View style={styles.option}>
           <View style={styles.option1}>
@@ -133,7 +132,6 @@ function Translate ({navigation}) {
           </View>
         </View>
       </View>
-    </TouchableWithoutFeedback>
   );
 };
 

@@ -96,7 +96,6 @@ function Dictionary ({navigation}) {
   };
 
   return (
-    // <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
           <View style={styles.search}>
             <View style={[styles.btn, styles.btnBars]}>
@@ -193,7 +192,6 @@ function Dictionary ({navigation}) {
             </View>
           </Modal>
       </View>
-    //</TouchableWithoutFeedback> 
   );
 };
 
