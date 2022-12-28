@@ -29,11 +29,12 @@ function Word (prop) {
     if (prop.version == 1) {
       language = "en";
     } else if (prop.version == 2) {
-      language = "vi";
+      language = "vn";
     }
+
     var thingsToSay = word;
     Speech.speak(thingsToSay, {
-      language: language
+      language: language,
     });
   }
 

@@ -59,7 +59,6 @@ function Translate ({navigation}) {
                       { label: 'Nga', value: 'ru' },
                       { label: 'Nhật Bản', value: 'ja' },
                   ]}
-                  //pickerProps={{ style: { height: 40, overflow: 'hidden' } }}
               />
           </View>
           <Icon 
@@ -79,7 +78,6 @@ function Translate ({navigation}) {
                     { label: 'Nga', value: 'ru' },
                     { label: 'Nhật Bản', value: 'ja' }
                 ]}
-                //pickerProps={{ style: { height: 40, overflow: 'hidden' } }}
             />
           </View>
         </View>

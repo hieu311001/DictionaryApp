@@ -103,7 +103,7 @@ function Favorite ({navigation}) {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Word id={selectedId} status={3} parentCallback={callbackFunction}/>
+              <Word id={selectedId} status={3} parentCallback={callbackFunction} version={1}/>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => setModalVisible(!modalVisible)}

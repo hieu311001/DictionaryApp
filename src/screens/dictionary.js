@@ -28,6 +28,7 @@ function Dictionary ({navigation}) {
   const [messages, setMessages] = useState(true);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState("");
+  const [textVN, setTextVN] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [modalAdd, setModalAdd] = useState(false);
   const [showBars, setShowBars] = useState(false);
@@ -62,7 +63,7 @@ function Dictionary ({navigation}) {
   }
 
   const handleSearchVN = (text) => {
-    axios.get(`http://${IP}:5000/v2/words`)
+    axios.get(`http://${IP}:5000/v2/search?keyword=${text}`)
     .then(function (response) {
       setData(response.data);
       setLoading(false);
@@ -136,7 +137,12 @@ function Dictionary ({navigation}) {
               <View >
                 <Icon name="search" color="#000000" size={30} 
                   onPress={() => {
-                  handleSearch(text);
+                    if (version == 1) {
+                      handleSearch(text);
+                    } else if (version == 2) {
+                      handleSearchVN(text);
+                    }
+                  
                   setLoading(true);
                 }}
                 />
@@ -171,7 +177,7 @@ function Dictionary ({navigation}) {
               <View style={styles.optionBars}>
                 <Pressable style={{flexDirection: 'row', alignItems: 'center'}} 
                   onPress={() => {
-                    handleSearchVN();
+                    handleSearchVN("");
                     setShowBars(!showBars);
                     setLoading(!loading);
                     setVersion(2);
